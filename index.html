@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Transform voice recordings into professional reports in seconds with AI-powered Vocalia">
+    <meta name="keywords" content="voice to text, sales reports, AI transcription, CRM integration">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Vocalia - Transform Voice into Professional Reports">
+    <meta property="og:description" content="AI-powered voice to report conversion for sales teams">
+    <meta property="og:type" content="website">
+    
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Vocalia",
+        "applicationCategory": "BusinessApplication",
+        "offers": {
+            "@type": "Offer",
+            "price": "14.90",
+            "priceCurrency": "EUR"
+        }
+    }
+    </script>
+    
+    <title>Vocalia - Transform Voice into Professional Reports</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Stripe -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            letter-spacing: -0.01em;
+        }
+        
+        :root {
+            --bg-primary: #FAFAFA;
+            --bg-secondary: #F0F4F8;
+            --bg-dark: #0F172A;
+            --navy-light: #E0E7FF;
+            --navy: #3B82F6;
+            --navy-dark: #1E3A8A;
+            --blue-light: #DBEAFE;
+            --blue: #60A5FA;
+            --accent: #06B6D4;
+            --text-primary: #0F172A;
+            --text-secondary: #64748B;
+            --text-light: #F8FAFC;
+        }
+        
+        body {
+            overflow-x: hidden;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(30, 58, 138, 0.25);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(30, 58, 138, 0.35);
+        }
+        
+        .btn-secondary {
+            background: white;
+            border: 1.5px solid #E5E7EB;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--navy);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Cards */
+        .feature-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border: 1px solid #F3F4F6;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border-color: var(--navy-light);
+        }
+        
+        /* Video placeholder */
+        .video-placeholder {
+            background: linear-gradient(135deg, #F0F4F8 0%, #E0E7FF 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .video-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        /* Gradient backgrounds */
+        .gradient-bg {
+            background: linear-gradient(135deg, #F0F4F8 0%, #E0E7FF 50%, #DBEAFE 100%);
+            background-size: 200% 200%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        /* Language switcher */
+        .lang-btn {
+            transition: all 0.3s ease;
+            background: white;
+            border: 1.5px solid #E5E7EB;
+        }
+        
+        .lang-btn:hover {
+            border-color: var(--navy);
+            transform: scale(1.05);
+        }
+        
+        .lang-btn.active {
+            background: var(--navy-dark);
+            color: white;
+            border-color: var(--navy-dark);
+        }
+        
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .badge-purple {
+            background: var(--bg-secondary);
+            color: var(--navy-dark);
+        }
+        
+        .badge-green {
+            background: #DCFCE7;
+            color: #166534;
+        }
+        
+        .badge-red {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Language Switcher (Fixed top right) -->
+    <div class="fixed top-6 right-6 z-50 flex gap-2">
+        <button class="lang-btn px-3 py-1.5 rounded-lg font-medium text-sm active" data-lang="en">EN</button>
+        <button class="lang-btn px-3 py-1.5 rounded-lg font-medium text-sm" data-lang="fr">FR</button>
+        <button class="lang-btn px-3 py-1.5 rounded-lg font-medium text-sm" data-lang="zh">中文</button>
+        <button class="lang-btn px-3 py-1.5 rounded-lg font-medium text-sm" data-lang="ja">日本語</button>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="min-h-screen flex items-center justify-center py-20 px-6 gradient-bg">
+        <div class="max-w-6xl mx-auto text-center">
+            <!-- Logo -->
+            <div class="mb-8 fade-in">
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-900 to-blue-600 text-white text-2xl font-semibold shadow-lg">
+                    V
+                </div>
+            </div>
+            
+            <!-- Main Title -->
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 fade-in-up" style="color: var(--text-primary); line-height: 1.15;" data-i18n="hero.title">
+                Transform Voice into<br>
+                <span style="background: linear-gradient(135deg, var(--navy-dark), var(--navy)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Professional Reports</span><br>
+                in Seconds
+            </h1>
+            
+            <!-- Subtitle -->
+            <p class="text-lg md:text-xl mb-10 max-w-2xl mx-auto fade-in-up delay-100 font-normal" style="color: var(--text-secondary);" data-i18n="hero.subtitle">
+                Vocalia uses AI to convert your sales calls and meetings into structured, actionable reports automatically
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3 justify-center items-center mb-6 fade-in-up delay-200">
+                <button id="startTrialBtn" class="btn-primary px-8 py-3.5 rounded-xl text-white text-base font-medium">
+                    <span data-i18n="cta.trial">Start Free 14-Day Trial</span>
+                </button>
+                <button class="btn-secondary px-8 py-3.5 rounded-xl text-base font-medium" style="color: var(--text-primary);">
+                    <span data-i18n="cta.demo">Watch Demo</span>
+                </button>
+            </div>
+            
+            <!-- Badge -->
+            <p class="text-sm fade-in-up delay-300" style="color: var(--text-secondary);">
+                <span data-i18n="hero.badge">No credit card required</span>
+            </p>
+            
+            <!-- Trust Badge -->
+            <div class="mt-16 fade-in-up delay-400">
+                <p class="text-sm mb-6" style="color: var(--text-secondary);" data-i18n="hero.trust">
+                    Join 500+ sales teams already using Vocalia
+                </p>
+                <div class="flex justify-center gap-12 opacity-40">
+                    <div class="text-xl font-medium">Salesforce</div>
+                    <div class="text-xl font-medium">HubSpot</div>
+                    <div class="text-xl font-medium">Zoom</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIDEO DEMO SECTION -->
+    <section class="py-24 px-6" style="background: white;">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-semibold text-center mb-12" style="color: var(--text-primary);" data-i18n="video.title">
+                See Vocalia in Action
+            </h2>
+            
+            <div class="relative aspect-video rounded-2xl overflow-hidden shadow-xl video-placeholder border border-blue-100">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <button class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8 ml-1" fill="#1E3A8A" viewBox="0 0 20 20">
+                            <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="absolute bottom-6 left-6 bg-white bg-opacity-90 px-4 py-2 rounded-lg backdrop-blur-sm">
+                    <p class="font-medium text-sm" style="color: var(--text-primary);" data-i18n="video.duration">2-minute demo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROBLEM/SOLUTION SECTION -->
+    <section class="py-24 px-6" style="background: var(--bg-primary);">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <span class="badge badge-red mb-6">THE PROBLEM</span>
+                <h3 class="text-3xl md:text-4xl font-semibold mb-4" style="color: var(--text-primary); line-height: 1.2;" data-i18n="problem.title">
+                    Sales teams spend 65% of their time on administrative tasks instead of selling
+                </h3>
+                <p class="text-lg" style="color: var(--text-secondary);" data-i18n="problem.description">
+                    Writing reports, updating CRMs, sending follow-ups... All valuable time lost.
+                </p>
+            </div>
+            
+            <div>
+                <span class="badge badge-green mb-6">THE SOLUTION</span>
+                <h3 class="text-3xl md:text-4xl font-semibold mb-4" style="color: var(--text-primary); line-height: 1.2;" data-i18n="solution.title">
+                    Record → Transcribe → Generate → Share
+                </h3>
+                <p class="text-lg mb-8" style="color: var(--text-secondary);" data-i18n="solution.description">
+                    All automated. Focus on what matters: closing deals.
+                </p>
+                <button class="btn-primary px-7 py-3 rounded-xl text-white font-medium">
+                    <span data-i18n="solution.cta">Try it Now</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="py-24 px-6" style="background: white;">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-semibold text-center mb-16" style="color: var(--text-primary);" data-i18n="features.title">
+                Everything You Need
+            </h2>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="feature-card p-8 rounded-2xl">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" style="color: var(--navy-dark);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3" style="color: var(--text-primary);" data-i18n="feature1.title">
+                        Voice-First Design
+                    </h3>
+                    <p style="color: var(--text-secondary);" data-i18n="feature1.description">
+                        Record naturally in any language, transcribed with 95% accuracy
+                    </p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-card p-8 rounded-2xl">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" style="color: var(--blue);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3" style="color: var(--text-primary);" data-i18n="feature2.title">
+                        AI-Powered Structure
+                    </h3>
+                    <p style="color: var(--text-secondary);" data-i18n="feature2.description">
+                        Automatically formats into professional reports with key insights highlighted
+                    </p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-card p-8 rounded-2xl">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-100 to-cyan-200 flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" style="color: var(--accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3" style="color: var(--text-primary);" data-i18n="feature3.title">
+                        Smart Integrations
+                    </h3>
+                    <p style="color: var(--text-secondary);" data-i18n="feature3.description">
+                        Connect to any CRM or tool. Unlimited customization possibilities
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section class="py-24 px-6" style="background: var(--bg-primary);">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-semibold text-center mb-16" style="color: var(--text-primary);" data-i18n="how.title">
+                How It Works
+            </h2>
+            
+            <div class="space-y-8">
+                <!-- Step 1 -->
+                <div class="flex items-start gap-6 bg-white p-8 rounded-2xl border border-gray-100">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-900 to-blue-600 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">1</div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-2" style="color: var(--text-primary);" data-i18n="step1.title">Record</h3>
+                        <p style="color: var(--text-secondary);" data-i18n="step1.description">Record your meeting or call directly in the app</p>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="flex items-start gap-6 bg-white p-8 rounded-2xl border border-gray-100">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-700 to-blue-500 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">2</div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-2" style="color: var(--text-primary);" data-i18n="step2.title">Transcribe</h3>
+                        <p style="color: var(--text-secondary);" data-i18n="step2.description">AI transcribes and analyzes the content</p>
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="flex items-start gap-6 bg-white p-8 rounded-2xl border border-gray-100">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">3</div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-2" style="color: var(--text-primary);" data-i18n="step3.title">Generate</h3>
+                        <p style="color: var(--text-secondary);" data-i18n="step3.description">Vocalia generates a structured report</p>
+                    </div>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="flex items-start gap-6 bg-white p-8 rounded-2xl border border-gray-100">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">4</div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-2" style="color: var(--text-primary);" data-i18n="step4.title">Share</h3>
+                        <p style="color: var(--text-secondary);" data-i18n="step4.description">Automatically sent to your CRM and team</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section class="py-24 px-6" style="background: white;">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-semibold mb-4" style="color: var(--text-primary);" data-i18n="pricing.title">
+                Simple, Transparent Pricing
+            </h2>
+            <p class="text-lg mb-12" style="color: var(--text-secondary);" data-i18n="pricing.subtitle">
+                Start with a 14-day free trial, no credit card required
+            </p>
+            
+            <div class="p-10 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-100">
+                <div class="mb-8">
+                    <p class="text-sm font-medium mb-2" style="color: var(--text-secondary);" data-i18n="pricing.trial">Free Trial</p>
+                    <h3 class="text-5xl font-bold" style="color: var(--text-primary);">14 <span class="text-2xl font-normal">days</span></h3>
+                    <p class="text-sm mt-2" style="color: var(--text-secondary);" data-i18n="pricing.trial.access">Full access</p>
+                </div>
+                
+                <div class="border-t border-blue-200 pt-8 mb-8">
+                    <p class="text-sm font-medium mb-2" style="color: var(--text-secondary);" data-i18n="pricing.after">After trial</p>
+                    <h3 class="text-5xl font-bold" style="color: var(--text-primary);">€14.90 <span class="text-xl font-normal">/month</span></h3>
+                </div>
+                
+                <ul class="text-left space-y-3 mb-8">
+                    <li class="flex items-start gap-3">
+                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: var(--navy-dark);" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span style="color: var(--text-primary);" data-i18n="pricing.feature1">Unlimited recordings</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: var(--purple-dark);" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span style="color: var(--text-primary);" data-i18n="pricing.feature2">AI report generation</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: var(--purple-dark);" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span style="color: var(--text-primary);" data-i18n="pricing.feature3">CRM integrations</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: var(--purple-dark);" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span style="color: var(--text-primary);" data-i18n="pricing.feature4">Multi-language support</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: var(--purple-dark);" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span style="color: var(--text-primary);" data-i18n="pricing.feature5">PDF & Word exports</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: var(--purple-dark);" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span style="color: var(--text-primary);" data-i18n="pricing.feature6">Priority support</span>
+                    </li>
+                </ul>
+                
+                <button id="pricingTrialBtn" class="btn-primary w-full py-3.5 rounded-xl text-white font-medium">
+                    <span data-i18n="pricing.cta">Start Your Free Trial</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-16 px-6" style="background: var(--bg-primary); border-top: 1px solid #E5E7EB;">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-purple-400 flex items-center justify-center text-white font-semibold text-sm">
+                            V
+                        </div>
+                        <span class="text-lg font-semibold" style="color: var(--text-primary);">Vocalia</span>
+                    </div>
+                    <p style="color: var(--text-secondary);" data-i18n="footer.tagline">Turn every conversation into actionable insights</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4" style="color: var(--text-primary);" data-i18n="footer.product">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#features" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.features">Features</a></li>
+                        <li><a href="#pricing" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.pricing">Pricing</a></li>
+                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.integrations">Integrations</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4" style="color: var(--text-primary);" data-i18n="footer.company">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.about">About</a></li>
+                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.blog">Blog</a></li>
+                        <li><a href="mailto:hello@vocalia.ai" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors">hello@vocalia.ai</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4" style="color: var(--text-primary);" data-i18n="footer.legal">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.privacy">Privacy Policy</a></li>
+                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.terms">Terms of Service</a></li>
+                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.cookies">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-200 pt-8 text-center">
+                <p class="text-sm" style="color: var(--text-secondary);">
+                    © 2024 Vocalia. <span data-i18n="footer.rights">All rights reserved.</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GDPR Cookie Banner -->
+    <div id="cookieBanner" class="fixed bottom-0 left-0 right-0 bg-white shadow-2xl border-t border-gray-200 p-6 z-50 hidden">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <p class="text-sm" style="color: var(--text-secondary);" data-i18n="cookies.message">
+                We use cookies to improve your experience. By continuing to use our site, you accept our Privacy Policy.
+            </p>
+            <div class="flex gap-3">
+                <button id="acceptCookies" class="px-6 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors">
+                    <span data-i18n="cookies.accept">Accept</span>
+                </button>
+                <button id="declineCookies" class="px-6 py-2 bg-gray-100 rounded-lg font-medium hover:bg-gray-200 transition-colors" style="color: var(--text-primary);">
+                    <span data-i18n="cookies.decline">Decline</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    
+    <!-- Translations Object -->
+    <script>
+    const TRANSLATIONS = {
+        en: {
+            "meta.title": "Vocalia - Transform Voice into Professional Reports",
+            "hero.title": "Transform Voice into Professional Reports in Seconds",
+            "hero.subtitle": "Vocalia uses AI to convert your sales calls and meetings into structured, actionable reports automatically",
+            "hero.badge": "No credit card required",
+            "hero.trust": "Join 500+ sales teams already using Vocalia",
+            "cta.trial": "Start Free 14-Day Trial",
+            "cta.demo": "Watch Demo",
+            "video.title": "See Vocalia in Action",
+            "video.duration": "2-minute demo",
+            "problem.title": "Sales teams spend 65% of their time on administrative tasks instead of selling",
+            "problem.description": "Writing reports, updating CRMs, sending follow-ups... All valuable time lost.",
+            "solution.title": "Record → Transcribe → Generate → Share",
+            "solution.description": "All automated. Focus on what matters: closing deals.",
+            "solution.cta": "Try it Now",
+            "features.title": "Everything You Need",
+            "feature1.title": "Voice-First Design",
+            "feature1.description": "Record naturally in any language, transcribed with 95% accuracy",
+            "feature2.title": "AI-Powered Structure",
+            "feature2.description": "Automatically formats into professional reports with key insights highlighted",
+            "feature3.title": "Smart Integrations",
+            "feature3.description": "Connect to any CRM or tool. Unlimited customization possibilities",
+            "how.title": "How It Works",
+            "step1.title": "Record",
+            "step1.description": "Record your meeting or call directly in the app",
+            "step2.title": "Transcribe",
+            "step2.description": "AI transcribes and analyzes the content",
+            "step3.title": "Generate",
+            "step3.description": "Vocalia generates a structured report",
+            "step4.title": "Share",
+            "step4.description": "Automatically sent to your CRM and team",
+            "pricing.title": "Simple, Transparent Pricing",
+            "pricing.subtitle": "Start with a 14-day free trial, no credit card required",
+            "pricing.trial": "Free Trial",
+            "pricing.trial.access": "Full access",
+            "pricing.after": "After trial",
+            "pricing.feature1": "Unlimited recordings",
+            "pricing.feature2": "AI report generation",
+            "pricing.feature3": "CRM integrations",
+            "pricing.feature4": "Multi-language support",
+            "pricing.feature5": "PDF & Word exports",
+            "pricing.feature6": "Priority support",
+            "pricing.cta": "Start Your Free Trial",
+            "footer.tagline": "Turn every conversation into actionable insights",
+            "footer.product": "Product",
+            "footer.features": "Features",
+            "footer.pricing": "Pricing",
+            "footer.integrations": "Integrations",
+            "footer.company": "Company",
+            "footer.about": "About",
+            "footer.blog": "Blog",
+            "footer.legal": "Legal",
+            "footer.privacy": "Privacy Policy",
+            "footer.terms": "Terms of Service",
+            "footer.cookies": "Cookies",
+            "footer.rights": "All rights reserved.",
+            "cookies.message": "We use cookies to improve your experience. By continuing to use our site, you accept our Privacy Policy.",
+            "cookies.accept": "Accept",
+            "cookies.decline": "Decline"
+        },
+        fr: {
+            "meta.title": "Vocalia - Transformez la voix en rapports professionnels",
+            "hero.title": "Transformez la voix en rapports professionnels en quelques secondes",
+            "hero.subtitle": "Vocalia utilise l'IA pour convertir vos appels commerciaux et réunions en rapports structurés et exploitables automatiquement",
+            "hero.badge": "Aucune carte bancaire requise",
+            "hero.trust": "Rejoignez les 500+ équipes commerciales qui utilisent déjà Vocalia",
+            "cta.trial": "Essai gratuit de 14 jours",
+            "cta.demo": "Voir la démo",
+            "video.title": "Découvrez Vocalia en action",
+            "video.duration": "Démo de 2 minutes",
+            "problem.title": "Les équipes commerciales passent 65% de leur temps sur des tâches administratives au lieu de vendre",
+            "problem.description": "Rédiger des rapports, mettre à jour les CRM, envoyer des suivis... Tout ce temps précieux perdu.",
+            "solution.title": "Enregistrer → Transcrire → Générer → Partager",
+            "solution.description": "Tout automatisé. Concentrez-vous sur l'essentiel : conclure des ventes.",
+            "solution.cta": "Essayez maintenant",
+            "features.title": "Tout ce dont vous avez besoin",
+            "feature1.title": "Design Voice-First",
+            "feature1.description": "Enregistrez naturellement dans n'importe quelle langue, transcrit avec 95% de précision",
+            "feature2.title": "Structure IA",
+            "feature2.description": "Formate automatiquement en rapports professionnels avec les points clés surlignés",
+            "feature3.title": "Intégration intelligente",
+            "feature3.description": "Connectez-vous à n'importe quel CRM ou outil. Possibilités de personnalisation illimitées",
+            "how.title": "Comment ça marche",
+            "step1.title": "Enregistrer",
+            "step1.description": "Enregistrez votre réunion ou appel directement dans l'application",
+            "step2.title": "Transcrire",
+            "step2.description": "L'IA transcrit et analyse le contenu",
+            "step3.title": "Générer",
+            "step3.description": "Vocalia génère un rapport structuré",
+            "step4.title": "Partager",
+            "step4.description": "Envoyé automatiquement à votre CRM et votre équipe",
+            "pricing.title": "Tarification simple et transparente",
+            "pricing.subtitle": "Commencez avec un essai gratuit de 14 jours, sans carte bancaire",
+            "pricing.trial": "Essai gratuit",
+            "pricing.trial.access": "Accès complet",
+            "pricing.after": "Après l'essai",
+            "pricing.feature1": "Enregistrements illimités",
+            "pricing.feature2": "Génération de rapports IA",
+            "pricing.feature3": "Intégrations CRM",
+            "pricing.feature4": "Support multilingue",
+            "pricing.feature5": "Exports PDF et Word",
+            "pricing.feature6": "Support prioritaire",
+            "pricing.cta": "Commencer l'essai gratuit",
+            "footer.tagline": "Transformez chaque conversation en insights actionnables",
+            "footer.product": "Produit",
+            "footer.features": "Fonctionnalités",
+            "footer.pricing": "Tarifs",
+            "footer.integrations": "Intégrations",
+            "footer.company": "Entreprise",
+            "footer.about": "À propos",
+            "footer.blog": "Blog",
+            "footer.legal": "Légal",
+            "footer.privacy": "Politique de confidentialité",
+            "footer.terms": "Conditions d'utilisation",
+            "footer.cookies": "Cookies",
+            "footer.rights": "Tous droits réservés.",
+            "cookies.message": "Nous utilisons des cookies pour améliorer votre expérience. En continuant à utiliser notre site, vous acceptez notre Politique de confidentialité.",
+            "cookies.accept": "Accepter",
+            "cookies.decline": "Refuser"
+        },
+        zh: {
+            "meta.title": "Vocalia - 将语音转化为专业报告",
+            "hero.title": "几秒内将语音转化为专业报告",
+            "hero.subtitle": "Vocalia使用AI自动将您的销售电话和会议转换为结构化、可操作的报告",
+            "hero.badge": "无需信用卡",
+            "hero.trust": "加入500+已使用Vocalia的销售团队",
+            "cta.trial": "开始14天免费试用",
+            "cta.demo": "观看演示",
+            "video.title": "看看Vocalia的实际效果",
+            "video.duration": "2分钟演示",
+            "problem.title": "销售团队将65%的时间花在行政任务上，而不是销售",
+            "problem.description": "撰写报告、更新CRM、发送跟进... 所有宝贵的时间都浪费了。",
+            "solution.title": "录音 → 转录 → 生成 → 分享",
+            "solution.description": "全部自动化。专注于重要的事情：达成交易。",
+            "solution.cta": "立即试用",
+            "features.title": "您需要的一切",
+            "feature1.title": "语音优先设计",
+            "feature1.description": "以任何语言自然录音，转录准确率达95%",
+            "feature2.title": "AI智能结构",
+            "feature2.description": "自动格式化为专业报告，关键见解突出显示",
+            "feature3.title": "智能集成",
+            "feature3.description": "连接任何CRM或工具。无限定制可能性",
+            "how.title": "工作原理",
+            "step1.title": "录音",
+            "step1.description": "直接在应用中录制您的会议或电话",
+            "step2.title": "转录",
+            "step2.description": "AI转录和分析内容",
+            "step3.title": "生成",
+            "step3.description": "Vocalia生成结构化报告",
+            "step4.title": "分享",
+            "step4.description": "自动发送到您的CRM和团队",
+            "pricing.title": "简单透明的定价",
+            "pricing.subtitle": "开始14天免费试用，无需信用卡",
+            "pricing.trial": "免费试用",
+            "pricing.trial.access": "完全访问",
+            "pricing.after": "试用后",
+            "pricing.feature1": "无限录音",
+            "pricing.feature2": "AI报告生成",
+            "pricing.feature3": "CRM集成",
+            "pricing.feature4": "多语言支持",
+            "pricing.feature5": "PDF和Word导出",
+            "pricing.feature6": "优先支持",
+            "pricing.cta": "开始免费试用",
+            "footer.tagline": "将每次对话转化为可执行的洞察",
+            "footer.product": "产品",
+            "footer.features": "功能",
+            "footer.pricing": "定价",
+            "footer.integrations": "集成",
+            "footer.company": "公司",
+            "footer.about": "关于",
+            "footer.blog": "博客",
+            "footer.legal": "法律",
+            "footer.privacy": "隐私政策",
+            "footer.terms": "服务条款",
+            "footer.cookies": "Cookies",
+            "footer.rights": "版权所有。",
+            "cookies.message": "我们使用cookies来改善您的体验。继续使用我们的网站，即表示您接受我们的隐私政策。",
+            "cookies.accept": "接受",
+            "cookies.decline": "拒绝"
+        },
+        ja: {
+            "meta.title": "Vocalia - 音声をプロフェッショナルなレポートに変換",
+            "hero.title": "数秒で音声をプロフェッショナルなレポートに変換",
+            "hero.subtitle": "VocaliaはAIを使用して、営業電話や会議を自動的に構造化された実用的なレポートに変換します",
+            "hero.badge": "クレジットカード不要",
+            "hero.trust": "既にVocaliaを使用している500以上の営業チームに参加",
+            "cta.trial": "14日間無料トライアルを開始",
+            "cta.demo": "デモを見る",
+            "video.title": "Vocaliaの実際の動作を見る",
+            "video.duration": "2分間のデモ",
+            "problem.title": "営業チームは時間の65%を販売ではなく管理業務に費やしています",
+            "problem.description": "レポート作成、CRM更新、フォローアップ送信...すべて貴重な時間の無駄です。",
+            "solution.title": "録音 → 文字起こし → 生成 → 共有",
+            "solution.description": "すべて自動化。重要なことに集中：取引成立。",
+            "solution.cta": "今すぐ試す",
+            "features.title": "必要なものすべて",
+            "feature1.title": "音声ファーストデザイン",
+            "feature1.description": "どの言語でも自然に録音、95%の精度で文字起こし",
+            "feature2.title": "AI搭載構造",
+            "feature2.description": "主要な洞察を強調したプロフェッショナルなレポートに自動フォーマット",
+            "feature3.title": "スマート連携",
+            "feature3.description": "任意のCRMやツールに接続。無制限のカスタマイズ可能性",
+            "how.title": "使い方",
+            "step1.title": "録音",
+            "step1.description": "アプリ内で会議や通話を直接録音",
+            "step2.title": "文字起こし",
+            "step2.description": "AIがコンテンツを文字起こしして分析",
+            "step3.title": "生成",
+            "step3.description": "Vocaliaが構造化されたレポートを生成",
+            "step4.title": "共有",
+            "step4.description": "CRMとチームに自動送信",
+            "pricing.title": "シンプルで透明な価格設定",
+            "pricing.subtitle": "14日間の無料トライアルから始める、クレジットカード不要",
+            "pricing.trial": "無料トライアル",
+            "pricing.trial.access": "フルアクセス",
+            "pricing.after": "トライアル後",
+            "pricing.feature1": "無制限の録音",
+            "pricing.feature2": "AIレポート生成",
+            "pricing.feature3": "CRM統合",
+            "pricing.feature4": "多言語サポート",
+            "pricing.feature5": "PDFとWordエクスポート",
+            "pricing.feature6": "優先サポート",
+            "pricing.cta": "無料トライアルを開始",
+            "footer.tagline": "すべての会話を実用的な洞察に変換",
+            "footer.product": "製品",
+            "footer.features": "機能",
+            "footer.pricing": "価格",
+            "footer.integrations": "統合",
+            "footer.company": "会社",
+            "footer.about": "会社概要",
+            "footer.blog": "ブログ",
+            "footer.legal": "法的事項",
+            "footer.privacy": "プライバシーポリシー",
+            "footer.terms": "利用規約",
+            "footer.cookies": "Cookie",
+            "footer.rights": "全著作権所有。",
+            "cookies.message": "お客様の体験を向上させるためにCookieを使用しています。当サイトを引き続き使用することで、プライバシーポリシーに同意したことになります。",
+            "cookies.accept": "同意する",
+            "cookies.decline": "拒否する"
+        }
+    };
+    </script>
+
+    <!-- Language Switcher -->
+    <script>
+    let currentLang = 'en';
+    
+    function setLanguage(lang) {
+        currentLang = lang;
+        
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
+                el.textContent = TRANSLATIONS[lang][key];
+            }
+        });
+        
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.lang === lang) {
+                btn.classList.add('active');
+            }
+        });
+        
+        document.documentElement.lang = lang;
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        setLanguage(currentLang);
+        
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setLanguage(btn.dataset.lang);
+            });
+        });
+    });
+    </script>
+
+    <!-- Stripe Integration -->
+    <script>
+    const STRIPE_PUBLIC_KEY = 'pk_test_YOUR_KEY_HERE';
+    const PRICE_ID = 'price_YOUR_PRICE_ID';
+    const TRIAL_PERIOD_DAYS = 14;
+    
+    const stripe = Stripe(STRIPE_PUBLIC_KEY);
+    
+    async function handleCheckout() {
+        try {
+            const buttons = document.querySelectorAll('#startTrialBtn, #pricingTrialBtn');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.innerHTML = '<svg class="animate-spin h-5 w-5 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+            });
+            
+            const response = await fetch('/api/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    priceId: PRICE_ID,
+                    trialPeriodDays: TRIAL_PERIOD_DAYS,
+                    successUrl: window.location.origin + '/success',
+                    cancelUrl: window.location.origin
+                })
+            });
+            
+            const { sessionId } = await response.json();
+            
+            const { error } = await stripe.redirectToCheckout({ sessionId });
+            
+            if (error) {
+                console.error('Stripe error:', error);
+                alert('An error occurred. Please try again.');
+                buttons.forEach(btn => {
+                    btn.disabled = false;
+                    btn.innerHTML = btn.dataset.originalText;
+                });
+            }
+        } catch (error) {
+            console.error('Checkout error:', error);
+            alert('An error occurred. Please try again.');
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const startTrialBtn = document.getElementById('startTrialBtn');
+        const pricingTrialBtn = document.getElementById('pricingTrialBtn');
+        
+        if (startTrialBtn) {
+            startTrialBtn.dataset.originalText = startTrialBtn.innerHTML;
+            startTrialBtn.addEventListener('click', handleCheckout);
+        }
+        
+        if (pricingTrialBtn) {
+            pricingTrialBtn.dataset.originalText = pricingTrialBtn.innerHTML;
+            pricingTrialBtn.addEventListener('click', handleCheckout);
+        }
+    });
+    </script>
+
+    <!-- Cookie Banner -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const banner = document.getElementById('cookieBanner');
+        const acceptBtn = document.getElementById('acceptCookies');
+        const declineBtn = document.getElementById('declineCookies');
+        
+        setTimeout(() => {
+            banner.classList.remove('hidden');
+        }, 2000);
+        
+        acceptBtn.addEventListener('click', () => {
+            banner.classList.add('hidden');
+        });
+        
+        declineBtn.addEventListener('click', () => {
+            banner.classList.add('hidden');
+        });
+    });
+    </script>
+
+    <!-- Scroll Animations -->
+    <script>
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.fade-in-up, .fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    });
+    </script>
+
+</body>
+</html>
