@@ -6,12 +6,10 @@
     <meta name="description" content="Transform voice recordings into professional reports in seconds with AI-powered Vocalia">
     <meta name="keywords" content="voice to text, sales reports, AI transcription, CRM integration">
     
-    <!-- Open Graph -->
     <meta property="og:title" content="Vocalia - Transform Voice into Professional Reports">
     <meta property="og:description" content="AI-powered voice to report conversion for sales teams">
     <meta property="og:type" content="website">
     
-    <!-- Schema.org -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -28,10 +26,7 @@
     
     <title>Vocalia - Transform Voice into Professional Reports</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Stripe -->
     <script src="https://js.stripe.com/v3/"></script>
     
     <style>
@@ -63,11 +58,11 @@
             color: var(--text-primary);
         }
         
-        /* Animations */
+        /* Animations améliorées */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -80,14 +75,51 @@
             to { opacity: 1; }
         }
         
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
         @keyframes gradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
         
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
         .fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .slide-in-left {
+            animation: slideInLeft 1s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 1s ease-out forwards;
             opacity: 0;
         }
         
@@ -95,26 +127,48 @@
             animation: fadeIn 1s ease-out forwards;
         }
         
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
         .delay-100 { animation-delay: 0.1s; }
         .delay-200 { animation-delay: 0.2s; }
         .delay-300 { animation-delay: 0.3s; }
         .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
         
-        /* Smooth scroll */
         html {
             scroll-behavior: smooth;
         }
         
-        /* Custom buttons */
+        /* Buttons améliorés */
         .btn-primary {
             background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 14px rgba(30, 58, 138, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
         }
         
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(30, 58, 138, 0.35);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(30, 58, 138, 0.4);
         }
         
         .btn-secondary {
@@ -127,22 +181,53 @@
             border-color: var(--navy);
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            background: #FAFBFC;
         }
         
-        /* Cards */
+        /* Cards améliorées */
         .feature-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             background: white;
             border: 1px solid #F3F4F6;
+            position: relative;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--navy-light), var(--blue-light));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .feature-card:hover::before {
+            opacity: 1;
         }
         
         .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-            border-color: var(--navy-light);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+            border-color: transparent;
         }
         
-        /* Video placeholder */
+        /* Comparison section */
+        .comparison-item {
+            transition: all 0.3s ease;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+        }
+        
+        .comparison-item:hover {
+            background: rgba(30, 58, 138, 0.03);
+        }
+        
+        /* Video placeholder amélioré */
         .video-placeholder {
             background: linear-gradient(135deg, #F0F4F8 0%, #E0E7FF 100%);
             position: relative;
@@ -156,7 +241,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle at 30% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
             animation: pulse 3s ease-in-out infinite;
         }
         
@@ -165,11 +250,23 @@
             50% { opacity: 1; }
         }
         
-        /* Gradient backgrounds */
         .gradient-bg {
             background: linear-gradient(135deg, #F0F4F8 0%, #E0E7FF 50%, #DBEAFE 100%);
             background-size: 200% 200%;
             animation: gradient 15s ease infinite;
+        }
+        
+        /* Stats card */
+        .stat-card {
+            background: white;
+            border: 1px solid #E5E7EB;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            border-color: var(--navy-light);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
         }
         
         /* Language switcher */
@@ -213,11 +310,33 @@
             background: #FEE2E2;
             color: #991B1B;
         }
+        
+        /* Image placeholder moderne */
+        .image-placeholder {
+            background: linear-gradient(135deg, #E0E7FF 0%, #DBEAFE 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .image-placeholder::after {
+            content: '📸';
+            font-size: 4rem;
+            opacity: 0.3;
+        }
+        
+        /* Section divider */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #E5E7EB 50%, transparent);
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Language Switcher (Fixed top right) -->
+    <!-- Language Switcher -->
     <div class="fixed top-6 right-6 z-50 flex gap-2">
         <button class="lang-btn px-3 py-1.5 rounded-lg font-medium text-sm active" data-lang="en">EN</button>
         <button class="lang-btn px-3 py-1.5 rounded-lg font-medium text-sm" data-lang="fr">FR</button>
@@ -228,42 +347,36 @@
     <!-- HERO SECTION -->
     <section class="min-h-screen flex items-center justify-center py-20 px-6 gradient-bg">
         <div class="max-w-6xl mx-auto text-center">
-            <!-- Logo -->
             <div class="mb-8 fade-in">
-                <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-900 to-blue-600 text-white text-2xl font-semibold shadow-lg">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-900 to-blue-600 text-white text-2xl font-semibold shadow-xl float">
                     V
                 </div>
             </div>
             
-            <!-- Main Title -->
             <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 fade-in-up" style="color: var(--text-primary); line-height: 1.15;" data-i18n="hero.title">
                 Transform Voice into<br>
                 <span style="background: linear-gradient(135deg, var(--navy-dark), var(--navy)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Professional Reports</span><br>
                 in Seconds
             </h1>
             
-            <!-- Subtitle -->
             <p class="text-lg md:text-xl mb-10 max-w-2xl mx-auto fade-in-up delay-100 font-normal" style="color: var(--text-secondary);" data-i18n="hero.subtitle">
                 Vocalia uses AI to convert your sales calls and meetings into structured, actionable reports automatically
             </p>
             
-            <!-- CTA Buttons -->
             <div class="flex flex-col sm:flex-row gap-3 justify-center items-center mb-6 fade-in-up delay-200">
-                <button id="startTrialBtn" class="btn-primary px-8 py-3.5 rounded-xl text-white text-base font-medium">
+                <button id="startTrialBtn" class="btn-primary px-8 py-4 rounded-xl text-white text-base font-medium">
                     <span data-i18n="cta.trial">Start Free 14-Day Trial</span>
                 </button>
-                <button class="btn-secondary px-8 py-3.5 rounded-xl text-base font-medium" style="color: var(--text-primary);">
+                <button class="btn-secondary px-8 py-4 rounded-xl text-base font-medium" style="color: var(--text-primary);">
                     <span data-i18n="cta.demo">Watch Demo</span>
                 </button>
             </div>
             
-            <!-- Badge -->
             <p class="text-sm fade-in-up delay-300" style="color: var(--text-secondary);">
                 <span data-i18n="hero.badge">No credit card required</span>
             </p>
             
-            <!-- Trust Badge -->
-            <div class="mt-16 fade-in-up delay-400">
+            <div class="mt-20 fade-in-up delay-400">
                 <p class="text-sm mb-6" style="color: var(--text-secondary);" data-i18n="hero.trust">
                     Join 500+ sales teams already using Vocalia
                 </p>
@@ -277,21 +390,24 @@
     </section>
 
     <!-- VIDEO DEMO SECTION -->
-    <section class="py-24 px-6" style="background: white;">
+    <section class="py-28 px-6" style="background: white;">
         <div class="max-w-5xl mx-auto">
-            <h2 class="text-4xl md:text-5xl font-semibold text-center mb-12" style="color: var(--text-primary);" data-i18n="video.title">
+            <h2 class="text-4xl md:text-5xl font-semibold text-center mb-4" style="color: var(--text-primary);" data-i18n="video.title">
                 See Vocalia in Action
             </h2>
+            <p class="text-center text-lg mb-12" style="color: var(--text-secondary);" data-i18n="video.subtitle">
+                Watch how easy it is to transform a conversation into a professional report
+            </p>
             
-            <div class="relative aspect-video rounded-2xl overflow-hidden shadow-xl video-placeholder border border-blue-100">
+            <div class="relative aspect-video rounded-3xl overflow-hidden shadow-2xl video-placeholder border border-blue-100">
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <button class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8 ml-1" fill="#1E3A8A" viewBox="0 0 20 20">
+                    <button class="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300">
+                        <svg class="w-10 h-10 ml-2" fill="#1E3A8A" viewBox="0 0 20 20">
                             <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
                         </svg>
                     </button>
                 </div>
-                <div class="absolute bottom-6 left-6 bg-white bg-opacity-90 px-4 py-2 rounded-lg backdrop-blur-sm">
+                <div class="absolute bottom-6 left-6 bg-white bg-opacity-95 px-5 py-2.5 rounded-xl backdrop-blur-sm shadow-lg">
                     <p class="font-medium text-sm" style="color: var(--text-primary);" data-i18n="video.duration">2-minute demo</p>
                 </div>
             </div>
@@ -299,11 +415,11 @@
     </section>
 
     <!-- PROBLEM/SOLUTION SECTION -->
-    <section class="py-24 px-6" style="background: var(--bg-primary);">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-            <div>
+    <section class="py-28 px-6" style="background: var(--bg-primary);">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-20 items-center">
+            <div class="slide-in-left">
                 <span class="badge badge-red mb-6">THE PROBLEM</span>
-                <h3 class="text-3xl md:text-4xl font-semibold mb-4" style="color: var(--text-primary); line-height: 1.2;" data-i18n="problem.title">
+                <h3 class="text-3xl md:text-4xl font-semibold mb-5" style="color: var(--text-primary); line-height: 1.2;" data-i18n="problem.title">
                     Sales teams spend 65% of their time on administrative tasks instead of selling
                 </h3>
                 <p class="text-lg" style="color: var(--text-secondary);" data-i18n="problem.description">
@@ -311,33 +427,182 @@
                 </p>
             </div>
             
-            <div>
+            <div class="slide-in-right delay-200">
                 <span class="badge badge-green mb-6">THE SOLUTION</span>
-                <h3 class="text-3xl md:text-4xl font-semibold mb-4" style="color: var(--text-primary); line-height: 1.2;" data-i18n="solution.title">
+                <h3 class="text-3xl md:text-4xl font-semibold mb-5" style="color: var(--text-primary); line-height: 1.2;" data-i18n="solution.title">
                     Record → Transcribe → Generate → Share
                 </h3>
                 <p class="text-lg mb-8" style="color: var(--text-secondary);" data-i18n="solution.description">
                     All automated. Focus on what matters: closing deals.
                 </p>
-                <button class="btn-primary px-7 py-3 rounded-xl text-white font-medium">
+                <button class="btn-primary px-7 py-3.5 rounded-xl text-white font-medium">
                     <span data-i18n="solution.cta">Try it Now</span>
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- FEATURES SECTION -->
-    <section class="py-24 px-6" style="background: white;">
+    <!-- NEW: COMPARISON SECTION -->
+    <section class="py-28 px-6" style="background: white;">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="badge badge-purple mb-4">WHY VOCALIA</span>
+                <h2 class="text-4xl md:text-5xl font-semibold mb-4" style="color: var(--text-primary);" data-i18n="comparison.title">
+                    Not Just Transcription—Intelligent Reporting
+                </h2>
+                <p class="text-lg" style="color: var(--text-secondary);" data-i18n="comparison.subtitle">
+                    See how Vocalia compares to generic transcription tools
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Generic Tools -->
+                <div class="p-8 rounded-2xl border-2 border-gray-200 bg-gray-50">
+                    <h3 class="text-2xl font-semibold mb-6" style="color: var(--text-secondary);" data-i18n="comparison.generic">
+                        Generic Tools (Otter, Rev)
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="comparison-item flex items-start gap-3">
+                            <span class="text-red-500 text-xl">❌</span>
+                            <span style="color: var(--text-secondary);" data-i18n="comparison.generic1">Give you raw text dumps</span>
+                        </div>
+                        <div class="comparison-item flex items-start gap-3">
+                            <span class="text-red-500 text-xl">❌</span>
+                            <span style="color: var(--text-secondary);" data-i18n="comparison.generic2">One-size-fits-all format</span>
+                        </div>
+                        <div class="comparison-item flex items-start gap-3">
+                            <span class="text-red-500 text-xl">❌</span>
+                            <span style="color: var(--text-secondary);" data-i18n="comparison.generic3">Manual formatting needed</span>
+                        </div>
+                        <div class="comparison-item flex items-start gap-3">
+                            <span class="text-red-500 text-xl">❌</span>
+                            <span style="color: var(--text-secondary);" data-i18n="comparison.generic4">No industry context</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vocalia -->
+                <div class="p-8 rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50">
+                    <h3 class="text-2xl font-semibold mb-6" style="color: var(--navy-dark);">
+                        Vocalia
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="comparison-item flex items-start gap-3">
+                            <span class="text-green-500 text-xl">✓</span>
+                            <span style="color: var(--text-primary);" data-i18n="comparison.vocalia1">Pre-structured reports ready to send</span>
+                        </div>
+                        <div class="comparison-item flex items-start gap-3">
+                            <span class="text-green-500 text-xl">✓</span>
+                            <span style="color: var(--text-primary);" data-i18n="comparison.vocalia2">Customized to your business</span>
+                        </div>
+                        <div class="comparison-item flex items-start gap-3">
+                            <span class="text-green-500 text-xl">✓</span>
+                            <span style="color: var(--text-primary);" data-i18n="comparison.vocalia3">Extracts key insights automatically</span>
+                        </div>
+                        <div class="comparison-item flex items-start gap-3">
+                            <span class="text-green-500 text-xl">✓</span>
+                            <span style="color: var(--text-primary);" data-i18n="comparison.vocalia4">Learns your terminology and clients</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: INDUSTRY TAILORED SECTION -->
+    <section class="py-28 px-6" style="background: var(--bg-primary);">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl md:text-5xl font-semibold text-center mb-16" style="color: var(--text-primary);" data-i18n="features.title">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-semibold mb-4" style="color: var(--text-primary);" data-i18n="industry.title">
+                    Reports That Speak Your Language
+                </h2>
+                <p class="text-lg max-w-3xl mx-auto" style="color: var(--text-secondary);" data-i18n="industry.subtitle">
+                    Unlike generic voice transcription tools, Vocalia understands your industry and adapts to your specific workflow
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <!-- Real Estate -->
+                <div class="stat-card p-6 rounded-2xl">
+                    <div class="text-4xl mb-4">🏠</div>
+                    <h4 class="font-semibold text-lg mb-2" style="color: var(--text-primary);" data-i18n="industry.realestate">Real Estate</h4>
+                    <p class="text-sm" style="color: var(--text-secondary);" data-i18n="industry.realestate.desc">Property visit summaries with key buyer concerns</p>
+                </div>
+                
+                <!-- Healthcare -->
+                <div class="stat-card p-6 rounded-2xl">
+                    <div class="text-4xl mb-4">⚕️</div>
+                    <h4 class="font-semibold text-lg mb-2" style="color: var(--text-primary);" data-i18n="industry.healthcare">Healthcare</h4>
+                    <p class="text-sm" style="color: var(--text-secondary);" data-i18n="industry.healthcare.desc">HIPAA-compliant consultation notes</p>
+                </div>
+                
+                <!-- Sales -->
+                <div class="stat-card p-6 rounded-2xl">
+                    <div class="text-4xl mb-4">📊</div>
+                    <h4 class="font-semibold text-lg mb-2" style="color: var(--text-primary);" data-i18n="industry.sales">Sales Teams</h4>
+                    <p class="text-sm" style="color: var(--text-secondary);" data-i18n="industry.sales.desc">Structured call reports with next steps</p>
+                </div>
+                
+                <!-- Consulting -->
+                <div class="stat-card p-6 rounded-2xl">
+                    <div class="text-4xl mb-4">💼</div>
+                    <h4 class="font-semibold text-lg mb-2" style="color: var(--text-primary);" data-i18n="industry.consulting">Consultants</h4>
+                    <p class="text-sm" style="color: var(--text-secondary);" data-i18n="industry.consulting.desc">Client meeting briefs with action items</p>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="slide-in-left">
+                    <h3 class="text-3xl font-semibold mb-6" style="color: var(--text-primary);" data-i18n="industry.detail.title">
+                        Every report is tailored to your specific workflow
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-6 h-6 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span style="color: var(--text-primary);" data-i18n="industry.feature1">Custom fields for your industry terminology</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-6 h-6 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span style="color: var(--text-primary);" data-i18n="industry.feature2">AI learns your company's specific vocabulary</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-6 h-6 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span style="color: var(--text-primary);" data-i18n="industry.feature3">Automatic categorization by client or project</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-6 h-6 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span style="color: var(--text-primary);" data-i18n="industry.feature4">Compliance with industry standards</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="slide-in-right delay-200">
+                    <div class="image-placeholder aspect-[4/3] rounded-2xl shadow-xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="py-28 px-6" style="background: white;">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-semibold text-center mb-20" style="color: var(--text-primary);" data-i18n="features.title">
                 Everything You Need
             </h2>
             
-            <div class="grid md:grid-cols-3 gap-6">
+            <div class="grid md:grid-cols-3 gap-8">
                 <!-- Feature 1 -->
                 <div class="feature-card p-8 rounded-2xl">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center mb-5">
-                        <svg class="w-6 h-6" style="color: var(--navy-dark);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7" style="color: var(--navy-dark);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
                         </svg>
                     </div>
@@ -351,8 +616,8 @@
                 
                 <!-- Feature 2 -->
                 <div class="feature-card p-8 rounded-2xl">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center mb-5">
-                        <svg class="w-6 h-6" style="color: var(--blue);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7" style="color: var(--blue);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
                         </svg>
                     </div>
@@ -366,8 +631,8 @@
                 
                 <!-- Feature 3 -->
                 <div class="feature-card p-8 rounded-2xl">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-100 to-cyan-200 flex items-center justify-center mb-5">
-                        <svg class="w-6 h-6" style="color: var(--accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-100 to-cyan-200 flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7" style="color: var(--accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
                     </div>
@@ -382,17 +647,85 @@
         </div>
     </section>
 
+    <!-- NEW: PERSONALIZATION SECTION -->
+    <section class="py-28 px-6" style="background: var(--bg-primary);">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="slide-in-left order-2 md:order-1">
+                    <div class="image-placeholder aspect-square rounded-2xl shadow-2xl"></div>
+                </div>
+                
+                <div class="slide-in-right order-1 md:order-2">
+                    <h2 class="text-4xl md:text-5xl font-semibold mb-6" style="color: var(--text-primary);" data-i18n="personalization.title">
+                        Your Brand, Your Format
+                    </h2>
+                    <p class="text-lg mb-8" style="color: var(--text-secondary);" data-i18n="personalization.subtitle">
+                        Every client deserves a personalized touch. Vocalia adapts to each customer's unique needs.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                <span class="text-xl">📋</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1" style="color: var(--text-primary);" data-i18n="personalization.item1.title">Custom Report Templates</h4>
+                                <p class="text-sm" style="color: var(--text-secondary);" data-i18n="personalization.item1.desc">Configure templates for different client types and scenarios</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                <span class="text-xl">🎨</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1" style="color: var(--text-primary);" data-i18n="personalization.item2.title">Your Branding</h4>
+                                <p class="text-sm" style="color: var(--text-secondary);" data-i18n="personalization.item2.desc">Add your logo, colors, and brand identity to every report</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                <span class="text-xl">⚙️</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1" style="color: var(--text-primary);" data-i18n="personalization.item3.title">Flexible Sections</h4>
+                                <p class="text-sm" style="color: var(--text-secondary);" data-i18n="personalization.item3.desc">Set specific fields and sections per industry or use case</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                <span class="text-xl">🧠</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1" style="color: var(--text-primary);" data-i18n="personalization.item4.title">AI Training</h4>
+                                <p class="text-sm" style="color: var(--text-secondary);" data-i18n="personalization.item4.desc">Train the AI on your company's specific terminology</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-10 p-6 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-100">
+                        <p class="text-lg font-medium" style="color: var(--navy-dark);" data-i18n="personalization.cta">
+                            One tool, infinite possibilities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- HOW IT WORKS SECTION -->
-    <section class="py-24 px-6" style="background: var(--bg-primary);">
+    <section class="py-28 px-6" style="background: white;">
         <div class="max-w-4xl mx-auto">
-            <h2 class="text-4xl md:text-5xl font-semibold text-center mb-16" style="color: var(--text-primary);" data-i18n="how.title">
+            <h2 class="text-4xl md:text-5xl font-semibold text-center mb-20" style="color: var(--text-primary);" data-i18n="how.title">
                 How It Works
             </h2>
             
-            <div class="space-y-8">
+            <div class="space-y-6">
                 <!-- Step 1 -->
-                <div class="flex items-start gap-6 bg-white p-8 rounded-2xl border border-gray-100">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-900 to-blue-600 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">1</div>
+                <div class="flex items-start gap-6 bg-white p-8 rounded-2xl border border-gray-100 hover:border-blue-200 transition-all hover:shadow-lg">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-900 to-blue-600 flex items-center justify-center text-white font-semibold text-xl flex-shrink-0 shadow-lg">1</div>
                     <div>
                         <h3 class="text-2xl font-semibold mb-2" style="color: var(--text-primary);" data-i18n="step1.title">Record</h3>
                         <p style="color: var(--text-secondary);" data-i18n="step1.description">Record your meeting or call directly in the app</p>
@@ -400,8 +733,8 @@
                 </div>
                 
                 <!-- Step 2 -->
-                <div class="flex items-start gap-6 bg-white p-8 rounded-2xl border border-gray-100">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-700 to-blue-500 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">2</div>
+                <div class="flex items-start gap-6 bg-white p-8 rounded-2xl border border-gray-100 hover:border-blue-200 transition-all hover:shadow-lg">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-700 to-blue-500 flex items-center justify-center text-white font-semibold text-xl flex-shrink-0 shadow-lg">2</div>
                     <div>
                         <h3 class="text-2xl font-semibold mb-2" style="color: var(--text-primary);" data-i18n="step2.title">Transcribe</h3>
                         <p style="color: var(--text-secondary);" data-i18n="step2.description">AI transcribes and analyzes the content</p>
@@ -409,8 +742,8 @@
                 </div>
                 
                 <!-- Step 3 -->
-                <div class="flex items-start gap-6 bg-white p-8 rounded-2xl border border-gray-100">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">3</div>
+                <div class="flex items-start gap-6 bg-white p-8 rounded-2xl border border-gray-100 hover:border-blue-200 transition-all hover:shadow-lg">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center text-white font-semibold text-xl flex-shrink-0 shadow-lg">3</div>
                     <div>
                         <h3 class="text-2xl font-semibold mb-2" style="color: var(--text-primary);" data-i18n="step3.title">Generate</h3>
                         <p style="color: var(--text-secondary);" data-i18n="step3.description">Vocalia generates a structured report</p>
@@ -418,8 +751,8 @@
                 </div>
                 
                 <!-- Step 4 -->
-                <div class="flex items-start gap-6 bg-white p-8 rounded-2xl border border-gray-100">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">4</div>
+                <div class="flex items-start gap-6 bg-white p-8 rounded-2xl border border-gray-100 hover:border-blue-200 transition-all hover:shadow-lg">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center text-white font-semibold text-xl flex-shrink-0 shadow-lg">4</div>
                     <div>
                         <h3 class="text-2xl font-semibold mb-2" style="color: var(--text-primary);" data-i18n="step4.title">Share</h3>
                         <p style="color: var(--text-secondary);" data-i18n="step4.description">Automatically sent to your CRM and team</p>
@@ -430,67 +763,67 @@
     </section>
 
     <!-- PRICING SECTION -->
-    <section class="py-24 px-6" style="background: white;">
+    <section class="py-28 px-6" style="background: var(--bg-primary);">
         <div class="max-w-3xl mx-auto text-center">
             <h2 class="text-4xl md:text-5xl font-semibold mb-4" style="color: var(--text-primary);" data-i18n="pricing.title">
                 Simple, Transparent Pricing
             </h2>
-            <p class="text-lg mb-12" style="color: var(--text-secondary);" data-i18n="pricing.subtitle">
+            <p class="text-lg mb-16" style="color: var(--text-secondary);" data-i18n="pricing.subtitle">
                 Start with a 14-day free trial, no credit card required
             </p>
             
-            <div class="p-10 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-100">
+            <div class="p-10 rounded-3xl bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-100 shadow-xl">
                 <div class="mb-8">
                     <p class="text-sm font-medium mb-2" style="color: var(--text-secondary);" data-i18n="pricing.trial">Free Trial</p>
-                    <h3 class="text-5xl font-bold" style="color: var(--text-primary);">14 <span class="text-2xl font-normal">days</span></h3>
+                    <h3 class="text-6xl font-bold" style="color: var(--text-primary);">14 <span class="text-2xl font-normal">days</span></h3>
                     <p class="text-sm mt-2" style="color: var(--text-secondary);" data-i18n="pricing.trial.access">Full access</p>
                 </div>
                 
-                <div class="border-t border-blue-200 pt-8 mb-8">
+                <div class="border-t-2 border-blue-200 pt-8 mb-10">
                     <p class="text-sm font-medium mb-2" style="color: var(--text-secondary);" data-i18n="pricing.after">After trial</p>
-                    <h3 class="text-5xl font-bold" style="color: var(--text-primary);">€14.90 <span class="text-xl font-normal">/month</span></h3>
+                    <h3 class="text-6xl font-bold" style="color: var(--text-primary);">€14.90 <span class="text-xl font-normal">/month</span></h3>
                 </div>
                 
-                <ul class="text-left space-y-3 mb-8">
+                <ul class="text-left space-y-4 mb-10">
                     <li class="flex items-start gap-3">
-                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: var(--navy-dark);" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-6 h-6 mt-0.5 flex-shrink-0" style="color: var(--navy-dark);" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
                         <span style="color: var(--text-primary);" data-i18n="pricing.feature1">Unlimited recordings</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: var(--purple-dark);" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-6 h-6 mt-0.5 flex-shrink-0" style="color: var(--navy-dark);" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
                         <span style="color: var(--text-primary);" data-i18n="pricing.feature2">AI report generation</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: var(--purple-dark);" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-6 h-6 mt-0.5 flex-shrink-0" style="color: var(--navy-dark);" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
                         <span style="color: var(--text-primary);" data-i18n="pricing.feature3">CRM integrations</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: var(--purple-dark);" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-6 h-6 mt-0.5 flex-shrink-0" style="color: var(--navy-dark);" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
                         <span style="color: var(--text-primary);" data-i18n="pricing.feature4">Multi-language support</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: var(--purple-dark);" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-6 h-6 mt-0.5 flex-shrink-0" style="color: var(--navy-dark);" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
                         <span style="color: var(--text-primary);" data-i18n="pricing.feature5">PDF & Word exports</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: var(--purple-dark);" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-6 h-6 mt-0.5 flex-shrink-0" style="color: var(--navy-dark);" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
                         <span style="color: var(--text-primary);" data-i18n="pricing.feature6">Priority support</span>
                     </li>
                 </ul>
                 
-                <button id="pricingTrialBtn" class="btn-primary w-full py-3.5 rounded-xl text-white font-medium">
+                <button id="pricingTrialBtn" class="btn-primary w-full py-4 rounded-xl text-white font-medium text-lg">
                     <span data-i18n="pricing.cta">Start Your Free Trial</span>
                 </button>
             </div>
@@ -498,15 +831,15 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="py-16 px-6" style="background: var(--bg-primary); border-top: 1px solid #E5E7EB;">
+    <footer class="py-20 px-6" style="background: white; border-top: 1px solid #E5E7EB;">
         <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-4 gap-8 mb-12">
+            <div class="grid md:grid-cols-4 gap-10 mb-12">
                 <div>
                     <div class="flex items-center gap-2 mb-4">
-                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-purple-400 flex items-center justify-center text-white font-semibold text-sm">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-900 to-blue-600 flex items-center justify-center text-white font-semibold text-sm shadow-lg">
                             V
                         </div>
-                        <span class="text-lg font-semibold" style="color: var(--text-primary);">Vocalia</span>
+                        <span class="text-xl font-semibold" style="color: var(--text-primary);">Vocalia</span>
                     </div>
                     <p style="color: var(--text-secondary);" data-i18n="footer.tagline">Turn every conversation into actionable insights</p>
                 </div>
@@ -514,27 +847,27 @@
                 <div>
                     <h4 class="font-semibold mb-4" style="color: var(--text-primary);" data-i18n="footer.product">Product</h4>
                     <ul class="space-y-2">
-                        <li><a href="#features" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.features">Features</a></li>
-                        <li><a href="#pricing" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.pricing">Pricing</a></li>
-                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.integrations">Integrations</a></li>
+                        <li><a href="#features" style="color: var(--text-secondary);" class="hover:text-blue-600 transition-colors" data-i18n="footer.features">Features</a></li>
+                        <li><a href="#pricing" style="color: var(--text-secondary);" class="hover:text-blue-600 transition-colors" data-i18n="footer.pricing">Pricing</a></li>
+                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-blue-600 transition-colors" data-i18n="footer.integrations">Integrations</a></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h4 class="font-semibold mb-4" style="color: var(--text-primary);" data-i18n="footer.company">Company</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.about">About</a></li>
-                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.blog">Blog</a></li>
-                        <li><a href="mailto:hello@vocalia.ai" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors">hello@vocalia.ai</a></li>
+                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-blue-600 transition-colors" data-i18n="footer.about">About</a></li>
+                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-blue-600 transition-colors" data-i18n="footer.blog">Blog</a></li>
+                        <li><a href="mailto:hello@vocalia.ai" style="color: var(--text-secondary);" class="hover:text-blue-600 transition-colors">hello@vocalia.ai</a></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h4 class="font-semibold mb-4" style="color: var(--text-primary);" data-i18n="footer.legal">Legal</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.privacy">Privacy Policy</a></li>
-                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.terms">Terms of Service</a></li>
-                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-purple-600 transition-colors" data-i18n="footer.cookies">Cookies</a></li>
+                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-blue-600 transition-colors" data-i18n="footer.privacy">Privacy Policy</a></li>
+                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-blue-600 transition-colors" data-i18n="footer.terms">Terms of Service</a></li>
+                        <li><a href="#" style="color: var(--text-secondary);" class="hover:text-blue-600 transition-colors" data-i18n="footer.cookies">Cookies</a></li>
                     </ul>
                 </div>
             </div>
@@ -554,10 +887,10 @@
                 We use cookies to improve your experience. By continuing to use our site, you accept our Privacy Policy.
             </p>
             <div class="flex gap-3">
-                <button id="acceptCookies" class="px-6 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors">
+                <button id="acceptCookies" class="px-6 py-2.5 bg-blue-900 text-white rounded-lg font-medium hover:bg-blue-800 transition-colors">
                     <span data-i18n="cookies.accept">Accept</span>
                 </button>
-                <button id="declineCookies" class="px-6 py-2 bg-gray-100 rounded-lg font-medium hover:bg-gray-200 transition-colors" style="color: var(--text-primary);">
+                <button id="declineCookies" class="px-6 py-2.5 bg-gray-100 rounded-lg font-medium hover:bg-gray-200 transition-colors" style="color: var(--text-primary);">
                     <span data-i18n="cookies.decline">Decline</span>
                 </button>
             </div>
@@ -566,11 +899,9 @@
 
     <!-- SCRIPTS -->
     
-    <!-- Translations Object -->
     <script>
     const TRANSLATIONS = {
         en: {
-            "meta.title": "Vocalia - Transform Voice into Professional Reports",
             "hero.title": "Transform Voice into Professional Reports in Seconds",
             "hero.subtitle": "Vocalia uses AI to convert your sales calls and meetings into structured, actionable reports automatically",
             "hero.badge": "No credit card required",
@@ -578,12 +909,39 @@
             "cta.trial": "Start Free 14-Day Trial",
             "cta.demo": "Watch Demo",
             "video.title": "See Vocalia in Action",
+            "video.subtitle": "Watch how easy it is to transform a conversation into a professional report",
             "video.duration": "2-minute demo",
             "problem.title": "Sales teams spend 65% of their time on administrative tasks instead of selling",
             "problem.description": "Writing reports, updating CRMs, sending follow-ups... All valuable time lost.",
             "solution.title": "Record → Transcribe → Generate → Share",
             "solution.description": "All automated. Focus on what matters: closing deals.",
             "solution.cta": "Try it Now",
+            "comparison.title": "Not Just Transcription—Intelligent Reporting",
+            "comparison.subtitle": "See how Vocalia compares to generic transcription tools",
+            "comparison.generic": "Generic Tools (Otter, Rev)",
+            "comparison.generic1": "Give you raw text dumps",
+            "comparison.generic2": "One-size-fits-all format",
+            "comparison.generic3": "Manual formatting needed",
+            "comparison.generic4": "No industry context",
+            "comparison.vocalia1": "Pre-structured reports ready to send",
+            "comparison.vocalia2": "Customized to your business",
+            "comparison.vocalia3": "Extracts key insights automatically",
+            "comparison.vocalia4": "Learns your terminology and clients",
+            "industry.title": "Reports That Speak Your Language",
+            "industry.subtitle": "Unlike generic voice transcription tools, Vocalia understands your industry and adapts to your specific workflow",
+            "industry.realestate": "Real Estate",
+            "industry.realestate.desc": "Property visit summaries with key buyer concerns",
+            "industry.healthcare": "Healthcare",
+            "industry.healthcare.desc": "HIPAA-compliant consultation notes",
+            "industry.sales": "Sales Teams",
+            "industry.sales.desc": "Structured call reports with next steps",
+            "industry.consulting": "Consultants",
+            "industry.consulting.desc": "Client meeting briefs with action items",
+            "industry.detail.title": "Every report is tailored to your specific workflow",
+            "industry.feature1": "Custom fields for your industry terminology",
+            "industry.feature2": "AI learns your company's specific vocabulary",
+            "industry.feature3": "Automatic categorization by client or project",
+            "industry.feature4": "Compliance with industry standards",
             "features.title": "Everything You Need",
             "feature1.title": "Voice-First Design",
             "feature1.description": "Record naturally in any language, transcribed with 95% accuracy",
@@ -591,6 +949,17 @@
             "feature2.description": "Automatically formats into professional reports with key insights highlighted",
             "feature3.title": "Smart Integrations",
             "feature3.description": "Connect to any CRM or tool. Unlimited customization possibilities",
+            "personalization.title": "Your Brand, Your Format",
+            "personalization.subtitle": "Every client deserves a personalized touch. Vocalia adapts to each customer's unique needs.",
+            "personalization.item1.title": "Custom Report Templates",
+            "personalization.item1.desc": "Configure templates for different client types and scenarios",
+            "personalization.item2.title": "Your Branding",
+            "personalization.item2.desc": "Add your logo, colors, and brand identity to every report",
+            "personalization.item3.title": "Flexible Sections",
+            "personalization.item3.desc": "Set specific fields and sections per industry or use case",
+            "personalization.item4.title": "AI Training",
+            "personalization.item4.desc": "Train the AI on your company's specific terminology",
+            "personalization.cta": "One tool, infinite possibilities.",
             "how.title": "How It Works",
             "step1.title": "Record",
             "step1.description": "Record your meeting or call directly in the app",
@@ -630,7 +999,6 @@
             "cookies.decline": "Decline"
         },
         fr: {
-            "meta.title": "Vocalia - Transformez la voix en rapports professionnels",
             "hero.title": "Transformez la voix en rapports professionnels en quelques secondes",
             "hero.subtitle": "Vocalia utilise l'IA pour convertir vos appels commerciaux et réunions en rapports structurés et exploitables automatiquement",
             "hero.badge": "Aucune carte bancaire requise",
@@ -638,19 +1006,57 @@
             "cta.trial": "Essai gratuit de 14 jours",
             "cta.demo": "Voir la démo",
             "video.title": "Découvrez Vocalia en action",
+            "video.subtitle": "Regardez comme il est facile de transformer une conversation en rapport professionnel",
             "video.duration": "Démo de 2 minutes",
             "problem.title": "Les équipes commerciales passent 65% de leur temps sur des tâches administratives au lieu de vendre",
             "problem.description": "Rédiger des rapports, mettre à jour les CRM, envoyer des suivis... Tout ce temps précieux perdu.",
             "solution.title": "Enregistrer → Transcrire → Générer → Partager",
             "solution.description": "Tout automatisé. Concentrez-vous sur l'essentiel : conclure des ventes.",
             "solution.cta": "Essayez maintenant",
+            "comparison.title": "Pas seulement de la transcription—Rapports intelligents",
+            "comparison.subtitle": "Voyez comment Vocalia se compare aux outils de transcription génériques",
+            "comparison.generic": "Outils génériques (Otter, Rev)",
+            "comparison.generic1": "Vous donnent du texte brut",
+            "comparison.generic2": "Format universel unique",
+            "comparison.generic3": "Formatage manuel nécessaire",
+            "comparison.generic4": "Aucun contexte industriel",
+            "comparison.vocalia1": "Rapports pré-structurés prêts à envoyer",
+            "comparison.vocalia2": "Personnalisés pour votre entreprise",
+            "comparison.vocalia3": "Extrait automatiquement les insights clés",
+            "comparison.vocalia4": "Apprend votre terminologie et vos clients",
+            "industry.title": "Des rapports qui parlent votre langue",
+            "industry.subtitle": "Contrairement aux outils de transcription vocale génériques, Vocalia comprend votre secteur et s'adapte à votre flux de travail",
+            "industry.realestate": "Immobilier",
+            "industry.realestate.desc": "Résumés de visites avec préoccupations clés des acheteurs",
+            "industry.healthcare": "Santé",
+            "industry.healthcare.desc": "Notes de consultation conformes HIPAA",
+            "industry.sales": "Équipes commerciales",
+            "industry.sales.desc": "Rapports d'appels structurés avec prochaines étapes",
+            "industry.consulting": "Consultants",
+            "industry.consulting.desc": "Comptes-rendus de réunions clients avec actions",
+            "industry.detail.title": "Chaque rapport est adapté à votre flux de travail spécifique",
+            "industry.feature1": "Champs personnalisés pour votre terminologie",
+            "industry.feature2": "L'IA apprend le vocabulaire de votre entreprise",
+            "industry.feature3": "Catégorisation automatique par client ou projet",
+            "industry.feature4": "Conformité aux normes de l'industrie",
             "features.title": "Tout ce dont vous avez besoin",
             "feature1.title": "Design Voice-First",
             "feature1.description": "Enregistrez naturellement dans n'importe quelle langue, transcrit avec 95% de précision",
             "feature2.title": "Structure IA",
             "feature2.description": "Formate automatiquement en rapports professionnels avec les points clés surlignés",
-            "feature3.title": "Intégration intelligente",
+            "feature3.title": "Intégrations intelligentes",
             "feature3.description": "Connectez-vous à n'importe quel CRM ou outil. Possibilités de personnalisation illimitées",
+            "personalization.title": "Votre marque, votre format",
+            "personalization.subtitle": "Chaque client mérite une touche personnalisée. Vocalia s'adapte aux besoins uniques de chaque client.",
+            "personalization.item1.title": "Modèles de rapports personnalisés",
+            "personalization.item1.desc": "Configurez des modèles pour différents types de clients et scénarios",
+            "personalization.item2.title": "Votre identité de marque",
+            "personalization.item2.desc": "Ajoutez votre logo, couleurs et identité de marque à chaque rapport",
+            "personalization.item3.title": "Sections flexibles",
+            "personalization.item3.desc": "Définissez des champs et sections spécifiques par industrie",
+            "personalization.item4.title": "Formation de l'IA",
+            "personalization.item4.desc": "Entraînez l'IA sur la terminologie de votre entreprise",
+            "personalization.cta": "Un outil, des possibilités infinies.",
             "how.title": "Comment ça marche",
             "step1.title": "Enregistrer",
             "step1.description": "Enregistrez votre réunion ou appel directement dans l'application",
@@ -685,12 +1091,11 @@
             "footer.terms": "Conditions d'utilisation",
             "footer.cookies": "Cookies",
             "footer.rights": "Tous droits réservés.",
-            "cookies.message": "Nous utilisons des cookies pour améliorer votre expérience. En continuant à utiliser notre site, vous acceptez notre Politique de confidentialité.",
+            "cookies.message": "Nous utilisons des cookies pour améliorer votre expérience.",
             "cookies.accept": "Accepter",
             "cookies.decline": "Refuser"
         },
         zh: {
-            "meta.title": "Vocalia - 将语音转化为专业报告",
             "hero.title": "几秒内将语音转化为专业报告",
             "hero.subtitle": "Vocalia使用AI自动将您的销售电话和会议转换为结构化、可操作的报告",
             "hero.badge": "无需信用卡",
@@ -698,12 +1103,39 @@
             "cta.trial": "开始14天免费试用",
             "cta.demo": "观看演示",
             "video.title": "看看Vocalia的实际效果",
+            "video.subtitle": "观看将对话转化为专业报告有多简单",
             "video.duration": "2分钟演示",
             "problem.title": "销售团队将65%的时间花在行政任务上，而不是销售",
-            "problem.description": "撰写报告、更新CRM、发送跟进... 所有宝贵的时间都浪费了。",
+            "problem.description": "撰写报告、更新CRM、发送跟进...所有宝贵的时间都浪费了。",
             "solution.title": "录音 → 转录 → 生成 → 分享",
             "solution.description": "全部自动化。专注于重要的事情：达成交易。",
             "solution.cta": "立即试用",
+            "comparison.title": "不仅是转录—智能报告",
+            "comparison.subtitle": "看看Vocalia与普通转录工具的对比",
+            "comparison.generic": "普通工具 (Otter, Rev)",
+            "comparison.generic1": "给你原始文本堆",
+            "comparison.generic2": "千篇一律的格式",
+            "comparison.generic3": "需要手动格式化",
+            "comparison.generic4": "无行业背景",
+            "comparison.vocalia1": "预先结构化的报告可直接发送",
+            "comparison.vocalia2": "为您的业务定制",
+            "comparison.vocalia3": "自动提取关键见解",
+            "comparison.vocalia4": "学习您的术语和客户",
+            "industry.title": "说您的语言的报告",
+            "industry.subtitle": "与通用语音转录工具不同，Vocalia了解您的行业并适应您的工作流程",
+            "industry.realestate": "房地产",
+            "industry.realestate.desc": "物业参观摘要及买家关键问题",
+            "industry.healthcare": "医疗保健",
+            "industry.healthcare.desc": "符合HIPAA的咨询记录",
+            "industry.sales": "销售团队",
+            "industry.sales.desc": "结构化通话报告及后续步骤",
+            "industry.consulting": "咨询顾问",
+            "industry.consulting.desc": "客户会议简报及行动项目",
+            "industry.detail.title": "每份报告都针对您的工作流程量身定制",
+            "industry.feature1": "您行业术语的自定义字段",
+            "industry.feature2": "AI学习您公司的特定词汇",
+            "industry.feature3": "按客户或项目自动分类",
+            "industry.feature4": "符合行业标准",
             "features.title": "您需要的一切",
             "feature1.title": "语音优先设计",
             "feature1.description": "以任何语言自然录音，转录准确率达95%",
@@ -711,6 +1143,17 @@
             "feature2.description": "自动格式化为专业报告，关键见解突出显示",
             "feature3.title": "智能集成",
             "feature3.description": "连接任何CRM或工具。无限定制可能性",
+            "personalization.title": "您的品牌，您的格式",
+            "personalization.subtitle": "每位客户都值得个性化服务。Vocalia适应每位客户的独特需求。",
+            "personalization.item1.title": "自定义报告模板",
+            "personalization.item1.desc": "为不同客户类型和场景配置模板",
+            "personalization.item2.title": "您的品牌",
+            "personalization.item2.desc": "为每份报告添加您的logo、颜色和品牌标识",
+            "personalization.item3.title": "灵活部分",
+            "personalization.item3.desc": "按行业或用例设置特定字段和部分",
+            "personalization.item4.title": "AI训练",
+            "personalization.item4.desc": "训练AI学习您公司的特定术语",
+            "personalization.cta": "一个工具，无限可能。",
             "how.title": "工作原理",
             "step1.title": "录音",
             "step1.description": "直接在应用中录制您的会议或电话",
@@ -745,12 +1188,11 @@
             "footer.terms": "服务条款",
             "footer.cookies": "Cookies",
             "footer.rights": "版权所有。",
-            "cookies.message": "我们使用cookies来改善您的体验。继续使用我们的网站，即表示您接受我们的隐私政策。",
+            "cookies.message": "我们使用cookies来改善您的体验。",
             "cookies.accept": "接受",
             "cookies.decline": "拒绝"
         },
         ja: {
-            "meta.title": "Vocalia - 音声をプロフェッショナルなレポートに変換",
             "hero.title": "数秒で音声をプロフェッショナルなレポートに変換",
             "hero.subtitle": "VocaliaはAIを使用して、営業電話や会議を自動的に構造化された実用的なレポートに変換します",
             "hero.badge": "クレジットカード不要",
@@ -758,12 +1200,39 @@
             "cta.trial": "14日間無料トライアルを開始",
             "cta.demo": "デモを見る",
             "video.title": "Vocaliaの実際の動作を見る",
+            "video.subtitle": "会話をプロフェッショナルなレポートに変換するのがいかに簡単かを見る",
             "video.duration": "2分間のデモ",
             "problem.title": "営業チームは時間の65%を販売ではなく管理業務に費やしています",
             "problem.description": "レポート作成、CRM更新、フォローアップ送信...すべて貴重な時間の無駄です。",
             "solution.title": "録音 → 文字起こし → 生成 → 共有",
             "solution.description": "すべて自動化。重要なことに集中：取引成立。",
             "solution.cta": "今すぐ試す",
+            "comparison.title": "単なる文字起こしではなく—インテリジェントレポート",
+            "comparison.subtitle": "Vocaliaと一般的な文字起こしツールの比較",
+            "comparison.generic": "一般的なツール (Otter, Rev)",
+            "comparison.generic1": "生のテキストダンプを提供",
+            "comparison.generic2": "万能型フォーマット",
+            "comparison.generic3": "手動フォーマットが必要",
+            "comparison.generic4": "業界コンテキストなし",
+            "comparison.vocalia1": "すぐに送信できる構造化レポート",
+            "comparison.vocalia2": "ビジネスにカスタマイズ",
+            "comparison.vocalia3": "主要な洞察を自動抽出",
+            "comparison.vocalia4": "用語とクライアントを学習",
+            "industry.title": "あなたの言語で話すレポート",
+            "industry.subtitle": "一般的な音声文字起こしツールとは異なり、Vocaliaは業界を理解し、ワークフローに適応します",
+            "industry.realestate": "不動産",
+            "industry.realestate.desc": "物件見学要約と購入者の主な懸念事項",
+            "industry.healthcare": "ヘルスケア",
+            "industry.healthcare.desc": "HIPAA準拠の診察記録",
+            "industry.sales": "営業チーム",
+            "industry.sales.desc": "次のステップを含む構造化通話レポート",
+            "industry.consulting": "コンサルタント",
+            "industry.consulting.desc": "アクション項目を含むクライアント会議概要",
+            "industry.detail.title": "各レポートはワークフローに合わせてカスタマイズ",
+            "industry.feature1": "業界用語のカスタムフィールド",
+            "industry.feature2": "AIが会社固有の語彙を学習",
+            "industry.feature3": "クライアントまたはプロジェクト別の自動分類",
+            "industry.feature4": "業界標準への準拠",
             "features.title": "必要なものすべて",
             "feature1.title": "音声ファーストデザイン",
             "feature1.description": "どの言語でも自然に録音、95%の精度で文字起こし",
@@ -771,6 +1240,17 @@
             "feature2.description": "主要な洞察を強調したプロフェッショナルなレポートに自動フォーマット",
             "feature3.title": "スマート連携",
             "feature3.description": "任意のCRMやツールに接続。無制限のカスタマイズ可能性",
+            "personalization.title": "あなたのブランド、あなたのフォーマット",
+            "personalization.subtitle": "すべてのクライアントは個別対応に値します。Vocaliaは各顧客の独自のニーズに適応します。",
+            "personalization.item1.title": "カスタムレポートテンプレート",
+            "personalization.item1.desc": "さまざまなクライアントタイプとシナリオ用のテンプレートを構成",
+            "personalization.item2.title": "あなたのブランディング",
+            "personalization.item2.desc": "すべてのレポートにロゴ、カラー、ブランドアイデンティティを追加",
+            "personalization.item3.title": "柔軟なセクション",
+            "personalization.item3.desc": "業界またはユースケース別の特定のフィールドとセクションを設定",
+            "personalization.item4.title": "AIトレーニング",
+            "personalization.item4.desc": "会社固有の用語でAIをトレーニング",
+            "personalization.cta": "1つのツール、無限の可能性。",
             "how.title": "使い方",
             "step1.title": "録音",
             "step1.description": "アプリ内で会議や通話を直接録音",
@@ -805,14 +1285,13 @@
             "footer.terms": "利用規約",
             "footer.cookies": "Cookie",
             "footer.rights": "全著作権所有。",
-            "cookies.message": "お客様の体験を向上させるためにCookieを使用しています。当サイトを引き続き使用することで、プライバシーポリシーに同意したことになります。",
+            "cookies.message": "Cookieを使用して体験を向上させています。",
             "cookies.accept": "同意する",
             "cookies.decline": "拒否する"
         }
     };
     </script>
 
-    <!-- Language Switcher -->
     <script>
     let currentLang = 'en';
     
@@ -847,7 +1326,6 @@
     });
     </script>
 
-    <!-- Stripe Integration -->
     <script>
     const STRIPE_PUBLIC_KEY = 'pk_test_YOUR_KEY_HERE';
     const PRICE_ID = 'price_YOUR_PRICE_ID';
@@ -877,7 +1355,6 @@
             });
             
             const { sessionId } = await response.json();
-            
             const { error } = await stripe.redirectToCheckout({ sessionId });
             
             if (error) {
@@ -910,7 +1387,6 @@
     });
     </script>
 
-    <!-- Cookie Banner -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         const banner = document.getElementById('cookieBanner');
@@ -931,7 +1407,6 @@
     });
     </script>
 
-    <!-- Scroll Animations -->
     <script>
     const observerOptions = {
         threshold: 0.1,
@@ -948,7 +1423,7 @@
     }, observerOptions);
     
     document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.fade-in-up, .fade-in').forEach(el => {
+        document.querySelectorAll('.fade-in-up, .fade-in, .slide-in-left, .slide-in-right').forEach(el => {
             observer.observe(el);
         });
     });
